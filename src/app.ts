@@ -43,7 +43,6 @@ client.on('message', async msg => {
 const saveGroup = async function(msg:Message, authorNumber:Contact){
     let Group = (await msg.getChat())
     let groupName = Group.name;
-    let groupID = Group.id;
 
     let number = authorNumber.id.user;
     let message = msg.body;
@@ -51,7 +50,7 @@ const saveGroup = async function(msg:Message, authorNumber:Contact){
 
     const pool = DB.GetConnection()
     let groupsPool = pool.get("groups");
-    let group = groupsPool.find(e => String(e.groupID) === String(groupID));
+    let group = groupsPool.find(e => e.groupName === groupName);
     let groupValue = group.value()
     if(groupValue){
         const save:groupMessage = {
@@ -64,7 +63,6 @@ const saveGroup = async function(msg:Message, authorNumber:Contact){
             .write()
     }else{
         const save:group = {
-            groupID:String(groupID),
             groupName,
             messages: [
                 {
@@ -82,12 +80,13 @@ const saveGroup = async function(msg:Message, authorNumber:Contact){
 const savePrivate = function(msg:Message,authorNumber:Contact){
     const pool = DB.GetConnection()
     const userPool = pool.get("users");
-    
+    // @ts-ignore    
     let users = userPool.find(e => e.authorNumber === authorNumber.id.user);
     const value = users.value()
 
     if(value){
         load.start()
+        // @ts-ignore
         users.get("messages").push({
             date: Date().toString(),
             message: msg.body
@@ -102,6 +101,7 @@ const savePrivate = function(msg:Message,authorNumber:Contact){
                 message: msg.body 
             }]
         } 
+        // @ts-ignore
         pool.get("users").push(save).write()
     }
     load.succeed("Mensaje Guardado")

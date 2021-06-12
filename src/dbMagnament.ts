@@ -15,7 +15,6 @@ export interface groupMessage extends Message{
     number: String
 }
 export interface group{
-    groupID: String,
     groupName: String,
     messages: Array<groupMessage>
 }
