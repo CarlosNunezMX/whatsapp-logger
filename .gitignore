@@ -1,0 +1,4 @@
+dist
+db.json
+session.json
+node_modules
