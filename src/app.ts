@@ -5,6 +5,7 @@ import chalk from "chalk"
 import fs from "fs" 
 import {resolve} from "path"
 import { DB, group, groupMessage, user } from "./dbMagnament" 
+import { v4 as uuidv4 } from 'uuid';
 let load:Ora = ora(chalk.yellow("Esperando autenticación...")).start()
 let isLogged = false;
 const settings = {
@@ -77,32 +78,78 @@ const saveGroup = async function(msg:Message, authorNumber:Contact){
     load.succeed("Mensaje Guardado")
 }
 
-const savePrivate = function(msg:Message,authorNumber:Contact){
+const savePrivate = async  function(msg:Message,authorNumber:Contact){
     const pool = DB.GetConnection()
     const userPool = pool.get("users");
-    // @ts-ignore    
+    // @ts-ignore
     let users = userPool.find(e => e.authorNumber === authorNumber.id.user);
     const value = users.value()
 
     if(value){
         load.start()
-        // @ts-ignore
-        users.get("messages").push({
-            date: Date().toString(),
-            message: msg.body
-        }).write()
+        if(msg.type === 'image'){
+            const media = await msg.downloadMedia();
+            const urlRand = uuidv4();
+            let url;
+            if(media.mimetype = "image/jpeg"){
+                url = urlRand+".jpeg";
+            }else if(media.mimetype = "image/png"){
+                url = urlRand+".png";
+            }
+            //@ts-ignore
+            fs.writeFile(url, media.data, 'base64', error => console.log(error))
+            //@ts-ignore
+            users.get("messages").push({
+                date: Date().toString(),
+                message: url
+            }).write()
+            
+            
+        }else{
+            // @ts-ignore
+            users.get("messages").push({
+                date: Date().toString(),
+                message: msg.body
+            }).write()
+
+        }
     }
     else{
-        const save:user = {
+    let save:user;
+
+    if(msg.type === 'image'){
+        const media = await msg.downloadMedia()
+        const urlRand = uuidv4();
+        let url;
+        if(media.mimetype = "image/jpeg"){
+            url = urlRand+".jpeg";
+        }else if(media.mimetype = "image/png"){
+            url = urlRand+".png";
+        }
+        //@ts-ignore
+        fs.writeFile(url, media.data, 'base64',error => console.log(error));
+        save = {
+            
             authorNumber: authorNumber.id.user,
-             messages: [
+                messages: [
+            {
+                date: Date().toString(),
+                message: url
+            }]
+        }
+    }else{
+        save = {
+            authorNumber: authorNumber.id.user,
+                messages: [
             {
                 date: Date().toString(),
                 message: msg.body 
             }]
-        } 
-        // @ts-ignore
-        pool.get("users").push(save).write()
+        }  
+        
+    }
+    // @ts-ignore
+    pool.get("users").push(save).write()
     }
     load.succeed("Mensaje Guardado")
 }
