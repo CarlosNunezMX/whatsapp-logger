@@ -9,7 +9,7 @@ export function passwordEncrypt(){
         decryptString,
         encryptString
     } = new crypt()
-    function encrypt(password:String){´
+    function encrypt(password:String){
         return encryptString(password, process.env.PASSWORD_CRYPT);
     }
     function decrypt(str:String){

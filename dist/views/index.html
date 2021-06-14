@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whatsapp Logger</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="home">
+        <div class="section">
+            <img src="/public/images/logo.png" alt="WhatsApp Logger">
+        </div>
+        <div id="a" class="section">
+            <form id="login">
+                <h2>Iniciar Sesión</h2>
+                <div id="error"></div>
+                <input type="text" placeholder="Nombre de Usuario" id="name">
+                <input type="password" placeholder="Contraseña" id="password">
+                <button type="submit" id="loginBtn"><i class="material-icons">send</i> Iniciar Sesión</button>
+            </form>
+        </div>
+        <div id="b" class="hidden section">
+            <div class='spinner'></div>
+            <p>Se esta conectando al servidor, ¡Por favor espere!</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Make with ❤️ by CarlosNunezMX & majiar15</p>
+    </footer>
+
+    <script src="/public/js/login.register.js"></script>
+</body>
+
+</html>

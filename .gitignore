@@ -1,5 +1,5 @@
-dist
 db.json
 session.json
 node_modules
 package-lock.json
+*.res.js

@@ -1,7 +1,7 @@
 import express, {Application} from 'express';
 import chalk from "chalk"
 import {Ora} from "ora"
-import router from './router';
+import router from './router.res';
 class Server{
     private app:Application;
     // @ts-ignore
@@ -16,6 +16,7 @@ class Server{
     settings(){
         this.app.use(express.json())
         this.app.use(express.urlencoded({extended:false}))
+        this.app.use("/public",express.static(__dirname + '/public'));
     }
     listen(){
         this.ora.text = "Iniciando Servidor"
@@ -24,7 +25,7 @@ class Server{
             port: this.port
         };
         this.app.listen(this.port, function(){
-            thisProps.ora.succeed(chalk.green("Servidor inciado en puerto") + chalk.yellow(thisProps.port))
+            thisProps.ora.succeed(chalk.green("Servidor inciado en puerto ") + chalk.yellow(thisProps.port))
         })
     }
     router(){

@@ -1,9 +1,11 @@
 import {Router,Request,Response, NextFunction} from "express";
-import {DB,passwordEncrypt} from "./dbMagnament";
-import {checkSession, CreateToken} from "./jsonWebToken"
+import {DB,passwordEncrypt} from "./dbMagnament.res";
+import {checkSession, CreateToken} from "./jsonWebToken.res"
 import {v4 as uuid} from "uuid"
 const router = Router();
-
+router.get("/",(req:Request,res:Response)=>{
+    res.sendFile(__dirname + "/views/index.html");
+})
 router.get("/chats/getAll",checkSession,function(req:Request,res:Response,next:NextFunction){
     let pool = DB.GetConnection();
     return res.json({

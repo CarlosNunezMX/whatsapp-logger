@@ -5,8 +5,8 @@ import chalk from "chalk"
 import fs from "fs" 
 import {config} from "dotenv"; config()
 import {resolve} from "path"
-import { DB, group, groupMessage, user } from "./dbMagnament" 
-import {ServerRunner} from "./server"
+import { DB, group, groupMessage, user } from "./dbMagnament.res" 
+import {ServerRunner} from "./server.res"
 import { v4 as uuidv4 } from 'uuid';
 
 
