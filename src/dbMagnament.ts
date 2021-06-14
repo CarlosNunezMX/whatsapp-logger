@@ -2,7 +2,24 @@ import Lowdb, { lowdb, LowdbBase, lowdbFp } from "lowdb";
 import low from "lowdb";
 import JSONFS from "lowdb/adapters/FileSync";
 import { Ora } from "ora";
+import crypt from "string-crypto"
 
+export function passwordEncrypt(){
+    const {
+        decryptString,
+        encryptString
+    } = new crypt()
+    function encrypt(password:String){´
+        return encryptString(password, process.env.PASSWORD_CRYPT);
+    }
+    function decrypt(str:String){
+        return decryptString(str,process.env.PASSWORD_CRYPT)
+    }
+    return {
+        encrypt,
+        decrypt
+    }
+}
 interface Message{
     date:String,
     message: String | string | undefined,
@@ -20,7 +37,12 @@ export interface group{
 }
 export interface DataBase{
     users: Array<Message>,
-    groups: Array<group>
+    groups: Array<group>,
+    owner: {
+        name: String,
+        id:String,
+        password: String
+    }
 }
 let db:low.LowdbSync<DataBase>;
 const CreateConnection = async(sppiner:Ora) => {
@@ -29,7 +51,8 @@ const CreateConnection = async(sppiner:Ora) => {
     db = low(adapter);
     db.defaults({
         users: [],
-        groups: []
+        groups: [],
+        owner:{}
     }).write();
     sppiner.succeed("Conexión completa")
 }

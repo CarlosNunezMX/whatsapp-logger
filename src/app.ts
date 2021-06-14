@@ -3,8 +3,14 @@ import ora, {Ora} from "ora"
 import qr from "qrcode-terminal" 
 import chalk from "chalk" 
 import fs from "fs" 
+import {config} from "dotenv"
+config()
 import {resolve} from "path"
 import { DB, group, groupMessage, user } from "./dbMagnament" 
+
+import {ServerRunner} from "./server"
+
+
 let load:Ora = ora(chalk.yellow("Esperando autenticación...")).start()
 let isLogged = false;
 const settings = {
@@ -112,12 +118,18 @@ client.on("authenticated", e => {
     fs.writeFileSync(resolve(__dirname,settings.sessionStorage + ".json"), JSON.stringify(e));
     load.succeed("Cliente conectado a Whatsapp!")
     DB.CreateConnection(load)
+    ServerRunner.ora = load;
+    ServerRunner.listen()
 })
+
+
 client.on("auth_failture", e => {
     load.stop();
     console.error(e)
     process.exit(1)
 })
+
+
 client.initialize();
 setTimeout(() => {
     if (!isLogged) {
@@ -126,4 +138,4 @@ setTimeout(() => {
         fs.rmSync(resolve(__dirname,settings.sessionStorage + ".json"));
         process.exit(1);
     }
-}, 7000)
+}, 10000)
