@@ -26,14 +26,16 @@ interface Message{
 }
 export interface user{
     authorNumber: String | string | undefined,
-    messages: Array<Message>
+    messages: Array<Message>,
+    authorImage: String | string | undefined
 }
 export interface groupMessage extends Message{
     number: String
 }
 export interface group{
     groupName: String,
-    messages: Array<groupMessage>
+    messages: Array<groupMessage>,
+    authorImage: String | string | undefined
 }
 export interface DataBase{
     users: Array<Message>,

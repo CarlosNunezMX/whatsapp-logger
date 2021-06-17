@@ -6,12 +6,15 @@ const router = Router();
 router.get("/",(req:Request,res:Response)=>{
     res.sendFile(__dirname + "/views/index.html");
 })
-router.get("/chats/getAll",checkSession,function(req:Request,res:Response,next:NextFunction){
+router.get("/api/chats/getAll",checkSession,function(req:Request,res:Response,next:NextFunction){
     let pool = DB.GetConnection();
     return res.json({
         users: pool.get("users"),
         groups: pool.get("groups")
     })
+})
+router.get("/app",(req:Request,res:Response)=>{
+    return res.sendFile(__dirname+"/views/app.html")
 })
 router.post("/api/register",function(req:Request,res:Response){
     console.log(req.body);
