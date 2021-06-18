@@ -120,7 +120,7 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
     }
     else{
     let save:user;
-
+    let photoContact = await client.getProfilePicUrl(authorNumber.id.user);
     if(msg.type === 'image'){
         const media = await msg.downloadMedia()
         const urlRand = uuidv4();
@@ -135,6 +135,7 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
         save = {
             
             authorNumber: authorNumber.id.user,
+            authorPhoto: photoContact,
                 messages: [
             {
                 date: Date().toString(),
@@ -144,6 +145,7 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
     }else{
         save = {
             authorNumber: authorNumber.id.user,
+            authorPhoto: photoContact,
                 messages: [
             {
                 date: Date().toString(),

@@ -1,0 +1,90 @@
+/* navbar */
+nav{
+    padding: 15px;
+    background-color: green;
+    color: .FFFF;
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    
+}
+/* lista de contactos */
+.contact{
+    width: 50%;
+    height: 90vh;
+    border: 1px solid gray;
+    flex-direction: column;
+    
+}   
+@media (min-width: 740px) {
+    .contact{
+        width: 50%;
+    }
+}
+@media (min-width: 760px) {
+    .contact{
+        width: 40%;
+    }
+}
+@media (min-width: 980px) {
+    .contact{
+        width: 30%;
+    }
+}
+@media (min-width: 1220px) {
+    .contact{
+        width: 20%;
+    }
+}
+.contact-item{
+    display: flex;
+    justify-content: space-around;
+    
+    margin: 15px 0px 15px 0px;
+    border-bottom: 1px solid black;
+}
+.contact-number{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-image > img{
+
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+}
+/* chat */
+.chat {
+    width: 100%;
+    height: 90vh;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+}
+.stageMessage{
+    width: 100%;
+    height: 90vh;
+}
+.containerWrite{
+    width: 100%;
+}
+.stageWrite{
+    display: flex;
+    flex-direction: row;
+}
+.write{
+    width: 95%;
+    border-radius: 15px;
+    padding: 15px;
+}
+.send{
+    font-size: 25px;
+}
