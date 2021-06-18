@@ -27,7 +27,6 @@ if (fs.existsSync(resolve(__dirname,settings.sessionStorage + ".json"))) {
 }
     
 const saveGroup = async function(msg:Message, authorNumber:Contact){
-    let img = await (await msg.getContact()).getProfilePicUrl()
     let Group = (await msg.getChat())
     let groupName = Group.name;
 
@@ -103,7 +102,7 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
     }
     else{
     let save:user;
-
+    let photoContact = await client.getProfilePicUrl(authorNumber.id.user);
     if(msg.type === 'image'){
         const media = await msg.downloadMedia()
         const urlRand = uuidv4();
@@ -116,8 +115,8 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
         //@ts-ignore
         fs.writeFile(url, media.data, 'base64',error => console.log(error));
         save = {
-            authorImage: img,
             authorNumber: authorNumber.id.user,
+            authorPhoto: photoContact,
                 messages: [
             {
                 date: Date().toString(),
@@ -127,7 +126,7 @@ const savePrivate = async  function(msg:Message,authorNumber:Contact){
     }else{
         save = {
             authorNumber: authorNumber.id.user,
-            authorImage: img
+            authorPhoto: photoContact,
                 messages: [
             {
                 date: Date().toString(),
