@@ -26,6 +26,7 @@ interface Message{
 }
 export interface user{
     authorNumber: String | string | undefined,
+
     authorPhoto: String | null,
     messages: Array<Message>
 }
@@ -34,7 +35,8 @@ export interface groupMessage extends Message{
 }
 export interface group{
     groupName: String,
-    messages: Array<groupMessage>
+    messages: Array<groupMessage>,
+    authorImage: String | string | undefined
 }
 export interface DataBase{
     users: Array<Message>,
